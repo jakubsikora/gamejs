@@ -26,8 +26,18 @@ class Game {
   }
 
   // State changes will trigger this method
-  render(prevState, state) {
-    this.hero.update();
+  update(prevState, state) {
+    this.hero.update(state);
+  }
+
+  animate() {
+    this.draw();
+
+    window.requestAnimFrame(this.animate);
+  }
+
+  draw() {
+    this.hero.draw();
   }
 }
 

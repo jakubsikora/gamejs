@@ -8,3 +8,4 @@ const hero = new Hero({
 hero.load();
 
 game.init(800, 500);
+game.animate();
