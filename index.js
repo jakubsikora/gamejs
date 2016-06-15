@@ -1,5 +1,10 @@
 import game from './src/game';
+import Hero from './src/hero';
 
-game.init();
+const hero = new Hero({
+  src: './assets/img/speedway_bike.png',
+});
 
-console.log(game);
+hero.load();
+
+game.init(800, 500);
