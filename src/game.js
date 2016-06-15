@@ -5,7 +5,7 @@ class Game {
     this.ctx = null;
 
     // Local player
-    this.hero = hero;
+    this.hero = null;
 
     // Game state
     this.store = {};
@@ -23,17 +23,21 @@ class Game {
 
     // Set canvas context
     this.ctx = this.canvas.getContext('2d');
+
+    // animate();
   }
 
   // State changes will trigger this method
-  update(prevState, state) {
+  update(state) {
+    console.log('game updated');
+    console.log('new state', state);
     this.hero.update(state);
   }
 
   animate() {
     this.draw();
 
-    window.requestAnimFrame(this.animate);
+    // window.requestAnimFrame(this.animate);
   }
 
   draw() {
