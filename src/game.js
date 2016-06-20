@@ -1,3 +1,8 @@
+import { createStore } from 'redux';
+import { keys } from './reducers';
+import { pressUp } from './actions';
+import Keys from './keys';
+
 class Game {
   constructor(hero) {
     // Canvas properties
@@ -7,8 +12,10 @@ class Game {
     // Local player
     this.hero = null;
 
+    this.keys = new Keys();
+
     // Game state
-    this.store = {};
+    this.store = createStore(keys);
   }
 
   init(width, height) {
@@ -25,13 +32,22 @@ class Game {
     this.ctx = this.canvas.getContext('2d');
 
     // animate();
+
+    const subscribeCallback = () => {
+      this.update(this.store.getState());
+    };
+
+    this.store.subscribe(subscribeCallback);
+
+    this.setEventHandlers();
+
+    subscribeCallback();
   }
 
   // State changes will trigger this method
   update(state) {
-    console.log('game updated');
     console.log('new state', state);
-    this.hero.update(state);
+    // this.hero.update(state);
   }
 
   animate() {
@@ -42,6 +58,16 @@ class Game {
 
   draw() {
     this.hero.draw();
+  }
+
+  setEventHandlers() {
+    window.addEventListener('keydown', (e) => {
+      this.keys.down(e, this.store);
+    }, false);
+
+    window.addEventListener('keyup', (e) => {
+      this.keys.up(e, this.store);
+    }, false);
   }
 }
 
