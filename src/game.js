@@ -1,10 +1,12 @@
-import { createStore } from 'redux';
-import { keys } from './reducers';
-import { pressUp } from './actions';
+import { applyMiddleware, createStore } from 'redux';
+import createLogger from 'redux-logger';
+import reducer from './reducers/index';
 import Keys from './keys';
+import raf from 'raf';
+import Canvas from './canvas';
 
 class Game {
-  constructor(hero) {
+  constructor() {
     // Canvas properties
     this.canvas = null;
     this.ctx = null;
@@ -15,7 +17,12 @@ class Game {
     this.keys = new Keys();
 
     // Game state
-    this.store = createStore(keys);
+    const logger = createLogger();
+
+    this.store = createStore(
+      reducer,
+      applyMiddleware(logger)
+    );
   }
 
   init(width, height) {
@@ -31,7 +38,7 @@ class Game {
     // Set canvas context
     this.ctx = this.canvas.getContext('2d');
 
-    // animate();
+    // this.animate();
 
     const subscribeCallback = () => {
       this.update(this.store.getState());
@@ -46,14 +53,19 @@ class Game {
 
   // State changes will trigger this method
   update(state) {
-    console.log('new state', state);
-    // this.hero.update(state);
+    if (this.hero) this.hero.update(state);
   }
 
   animate() {
-    this.draw();
+    const animateCallback = () => {
+      this.draw();
+    };
 
-    // window.requestAnimFrame(this.animate);
+    raf(function tick() {
+      animateCallback();
+
+      raf(tick);
+    });
   }
 
   draw() {

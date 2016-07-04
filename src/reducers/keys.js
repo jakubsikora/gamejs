@@ -7,11 +7,11 @@ import {
   RELEASE_LEFT,
   PRESS_RIGHT,
   RELEASE_RIGHT,
-} from './actionTypes';
+} from '../actionTypes';
 
 const initialState = { up: false, down: false, right: false, left: false };
 
-export function keys(state = initialState, action) {
+export default function keys(state = initialState, action) {
   switch (action.type) {
     case PRESS_UP:
       return { ...state, up: true };

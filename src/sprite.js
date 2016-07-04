@@ -11,12 +11,10 @@ class Sprite {
   }
 
   load() {
-    console.log('loading sprite', this.src);
     const image = new Image();
 
     image.onload = () => {
       this.size = [image.width, image.height];
-      console.log('sprite loaded', image);
     };
 
     image.src = this.src;

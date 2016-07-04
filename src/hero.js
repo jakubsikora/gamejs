@@ -6,7 +6,7 @@ class Hero extends Sprite {
   }
 
   update(state) {
-    if (state.keyUp) {
+    if (state.keys.up) {
       this.pos[0] += 1;
     }
   }
