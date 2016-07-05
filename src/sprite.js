@@ -2,6 +2,7 @@ import canvas from './canvas';
 
 class Sprite {
   constructor(options = {}) {
+    console.log(canvas.width);
     this.ctx = canvas.getContext('2d');
     this.size = [0, 0];
     this.pos = options.pos || [canvas.width / 2, canvas.height / 2];

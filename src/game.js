@@ -29,8 +29,8 @@ class Game {
     this.ctx = this.canvas.getContext('2d');
 
     // Set canvas dimensions
-    this.canvas.width = width;
-    this.canvas.height = height;
+    this.canvas.width = width || document.body.clientWidth;
+    this.canvas.height = height || document.body.clientHeight;
 
     this.animate();
 
