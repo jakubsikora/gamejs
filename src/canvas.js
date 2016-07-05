@@ -1,9 +1,9 @@
-export default class Canvas {
+class Canvas {
   constructor() {
     this.instance = document.getElementById('canvas');
   }
-
-  get instance() {
-    return this.instance;
-  }
 }
+
+const canvas = new Canvas();
+
+export default canvas.instance;

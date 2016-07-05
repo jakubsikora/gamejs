@@ -3,14 +3,10 @@ import createLogger from 'redux-logger';
 import reducer from './reducers/index';
 import Keys from './keys';
 import raf from 'raf';
-import Canvas from './canvas';
+import canvas from './canvas';
 
 class Game {
   constructor() {
-    // Canvas properties
-    this.canvas = null;
-    this.ctx = null;
-
     // Local player
     this.hero = null;
 
@@ -29,16 +25,14 @@ class Game {
     console.log('Initializing game');
 
     // Set canvas element
-    this.canvas = document.getElementById('canvas');
+    this.canvas = canvas;
+    this.ctx = this.canvas.getContext('2d');
 
     // Set canvas dimensions
     this.canvas.width = width;
     this.canvas.height = height;
 
-    // Set canvas context
-    this.ctx = this.canvas.getContext('2d');
-
-    // this.animate();
+    this.animate();
 
     const subscribeCallback = () => {
       this.update(this.store.getState());
@@ -69,6 +63,9 @@ class Game {
   }
 
   draw() {
+    // Wipe the canvas clean
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
     this.hero.draw();
   }
 

@@ -7,12 +7,21 @@ class Hero extends Sprite {
 
   update(state) {
     if (state.keys.up) {
-      this.pos[0] += 1;
+      this.pos[0] += 10;
     }
   }
 
   draw() {
-    // TODO: draw sprite on canvas
+    // set rotation
+    this.ctx.beginPath();
+    this.ctx.arc(
+      this.pos[0],
+      this.pos[1],
+      20,
+      0,
+      2 * Math.PI
+    );
+    this.ctx.stroke();
   }
 }
 

@@ -1,7 +1,10 @@
+import canvas from './canvas';
+
 class Sprite {
   constructor(options = {}) {
+    this.ctx = canvas.getContext('2d');
     this.size = [0, 0];
-    this.pos = options.pos || [0, 0];
+    this.pos = options.pos || [canvas.width / 2, canvas.height / 2];
     this.vel = [0, 0];
     this.angle = 0;
     this.angleVel = 0;
