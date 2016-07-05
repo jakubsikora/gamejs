@@ -11,6 +11,9 @@ class Sprite {
     this.friction = options.friction || 0;
     this.src = options.src;
     this.speed = 0;
+    this.collisions = {
+      canvas: false,
+    };
   }
 
   load() {
@@ -21,6 +24,26 @@ class Sprite {
     };
 
     image.src = this.src;
+  }
+
+  collisions() {
+    this.canvasCollisions();
+  }
+
+  canvasCollisions() {
+    if (!this.collisions.canvas) {
+      if (this.pos[0] > canvas.width) {
+        this.pos[0] = this.pos[0] % canvas.width;
+      } else if (this.pos[0] < 0) {
+        this.pos[0] = canvas.width + (this.pos[0] % canvas.width);
+      }
+
+      if (this.pos[1] > canvas.height) {
+        this.pos[1] = this.pos[1] % canvas.height;
+      } else if (this.pos[1] < 0) {
+        this.pos[1] = canvas.height + (this.pos[1] % canvas.height);
+      }
+    }
   }
 }
 
