@@ -4,12 +4,10 @@ import reducer from './reducers/index';
 import Keys from './keys';
 import raf from 'raf';
 import canvas from './canvas';
+import { initHero, updateHero } from './actions';
 
 class Game {
   constructor() {
-    // Local player
-    this.hero = null;
-
     this.keys = new Keys();
 
     // Game state
@@ -21,7 +19,7 @@ class Game {
     );
   }
 
-  init(width, height) {
+  init() {
     console.log('Initializing game');
 
     // Set canvas element
@@ -29,8 +27,8 @@ class Game {
     this.ctx = this.canvas.getContext('2d');
 
     // Set canvas dimensions
-    this.canvas.width = width || document.body.clientWidth;
-    this.canvas.height = height || document.body.clientHeight;
+    this.canvas.width = document.body.clientWidth;
+    this.canvas.height = document.body.clientHeight;
 
     this.animate();
 
@@ -43,6 +41,17 @@ class Game {
     this.setEventHandlers();
 
     subscribeCallback();
+
+    // Initialize Hero
+    this.initHero();
+  }
+
+  initHero() {
+    // TODO: for now i will use some random data
+    this.store.dispatch(initHero({
+      pos: [this.canvas.width / 2, this.canvas.height / 2],
+      size: [30, 30],
+    }));
   }
 
   // State changes will trigger this method
@@ -52,7 +61,8 @@ class Game {
 
   animate() {
     const animateCallback = () => {
-      this.draw();
+      this.store.dispatch(updateHero());
+      this.render();
     };
 
     raf(function tick() {
@@ -62,11 +72,24 @@ class Game {
     });
   }
 
-  draw() {
+  render() {
     // Wipe the canvas clean
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.hero.draw();
+    this.renderHero();
+  }
+
+  renderHero() {
+    const state = this.store.getState();
+
+    this.ctx.rect(
+      state.hero.pos[0],
+      state.hero.pos[1],
+      state.hero.size[0],
+      state.hero.size[1]
+    );
+
+    this.ctx.stroke();
   }
 
   setEventHandlers() {

@@ -7,6 +7,9 @@ import {
   RELEASE_LEFT,
   PRESS_RIGHT,
   RELEASE_RIGHT,
+  INIT_HERO,
+  UPDATE_THRUST,
+  UPDATE_HERO,
 } from './actionTypes';
 
 export function pressUp() {
@@ -54,5 +57,25 @@ export function pressRight() {
 export function releaseRight() {
   return {
     type: RELEASE_RIGHT,
+  };
+}
+
+export function initHero(hero) {
+  return {
+    type: INIT_HERO,
+    hero,
+  };
+}
+
+export function updateThrust(thrust) {
+  return {
+    type: UPDATE_THRUST,
+    thrust,
+  };
+}
+
+export function updateHero() {
+  return {
+    type: UPDATE_HERO,
   };
 }

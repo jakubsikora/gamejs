@@ -7,13 +7,15 @@ import {
   releaseLeft,
   pressRight,
   releaseRight,
+  updateThrust,
 } from './actions';
 
 class Keys {
   down(event, store) {
     switch (event.code) {
       case 'ArrowUp':
-        store.dispatch(pressUp());
+        // store.dispatch(pressUp());
+        store.dispatch(updateThrust(true));
         break;
 
       case 'ArrowDown':
@@ -35,7 +37,8 @@ class Keys {
   up(event, store) {
     switch (event.code) {
       case 'ArrowUp':
-        store.dispatch(releaseUp());
+        // store.dispatch(releaseUp());
+        store.dispatch(updateThrust(false));
         break;
 
       case 'ArrowDown':
