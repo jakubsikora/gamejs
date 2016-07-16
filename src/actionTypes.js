@@ -10,5 +10,7 @@ export const RELEASE_RIGHT = 'RELEASE_RIGHT';
 
 // Hero
 export const UPDATE_THRUST = 'UPDATE_THRUST';
+export const UPDATE_LEFT = 'UPDATE_LEFT';
+export const UPDATE_RIGHT = 'UPDATE_RIGHT';
 export const UPDATE_HERO = 'UPDATE_HERO';
 export const INIT_HERO = 'INIT_HERO';

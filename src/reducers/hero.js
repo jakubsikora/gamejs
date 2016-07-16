@@ -1,15 +1,19 @@
 import {
   INIT_HERO,
   UPDATE_THRUST,
+  UPDATE_LEFT,
+  UPDATE_RIGHT,
   UPDATE_HERO,
 } from '../actionTypes';
 
 const initialState = {
   size: [0, 0],
-  pos: [0, 0],
+  position: [0, 0],
   velocity: [0, 0],
   forward: [0, 0],
   thrust: false,
+  left: false,
+  right: false,
   angleVelocity: 0,
   angle: 0,
 };
@@ -25,26 +29,46 @@ function updatePosition(state) {
     state.velocity[1] * (1 - FRICTION_FACTOR),
   ];
 
-  // const newAngle = state.angle + state.angleVel;
-  // const newForward = angleToVector(newAngle);
+  // Angle updated by keys
+  let angleVelocity = state.angleVelocity;
+  const left = state.left;
+  const right = state.right;
+  const thrust = state.thrust;
 
-  // if (action.thrust) {
-  //   vel[0] += forward[0] * SHIP_SPEED;
-  //   vel[1] += forward[1] * SHIP_SPEED;
-  // }
+  if (left) {
+    angleVelocity = -0.07;
+  }
 
-  // pos[0] += vel[0];
-  // pos[1] += vel[1];
+  if (right) {
+    angleVelocity = 0.07;
+  }
+
+  const angle = state.angle + angleVelocity;
+  const forward = angleToVector(angle);
+
+  if (thrust) {
+    velocity[0] += forward[0] * 0.15;
+    velocity[1] += forward[1] * 0.15;
+  }
+
+  const position = [
+    state.position[0] + velocity[0],
+    state.position[1] + velocity[1],
+  ];
+
+  return { ...state, position, forward, angle, velocity, right, left };
 }
-
 
 export default function hero(state = initialState, action) {
   switch (action.type) {
     case INIT_HERO:
       return { ...state, ...action.hero };
     case UPDATE_THRUST:
-      const newState = { ...state, thrust: action.thrust };
-      return updatePosition(newState);
+      return updatePosition({ ...state, thrust: action.thrust });
+    case UPDATE_LEFT:
+      return updatePosition({ ...state, left: action.left });
+    case UPDATE_RIGHT:
+      return updatePosition({ ...state, right: action.right });
     case UPDATE_HERO:
       return updatePosition(state);
     default:

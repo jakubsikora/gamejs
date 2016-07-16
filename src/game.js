@@ -5,13 +5,16 @@ import Keys from './keys';
 import raf from 'raf';
 import canvas from './canvas';
 import { initHero, updateHero } from './actions';
+import { UPDATE_HERO } from './actionTypes';
 
 class Game {
   constructor() {
     this.keys = new Keys();
 
     // Game state
-    const logger = createLogger();
+    const logger = createLogger({
+      predicate: (getState, action) => action.type !== UPDATE_HERO,
+    });
 
     this.store = createStore(
       reducer,
@@ -49,7 +52,7 @@ class Game {
   initHero() {
     // TODO: for now i will use some random data
     this.store.dispatch(initHero({
-      pos: [this.canvas.width / 2, this.canvas.height / 2],
+      position: [this.canvas.width / 2, this.canvas.height / 2],
       size: [30, 30],
     }));
   }
@@ -81,14 +84,46 @@ class Game {
 
   renderHero() {
     const state = this.store.getState();
+    const cx = state.hero.position[0] + (state.hero.size[0] / 2);
+    const cy = state.hero.position[1] + (state.hero.size[1] / 2);
+    const heroX = 0 - state.hero.size[0] / 2;
+    const heroY = 0 - state.hero.size[0] / 2;
 
+    this.ctx.save();
+    this.ctx.translate(cx, cy);
+    this.ctx.rotate(state.hero.angle);
+
+    this.ctx.beginPath();
     this.ctx.rect(
-      state.hero.pos[0],
-      state.hero.pos[1],
+      heroX,
+      heroY,
       state.hero.size[0],
       state.hero.size[1]
     );
+    this.ctx.lineWidth = 1;
+    this.ctx.strokeStyle = '#000';
 
+    this.ctx.stroke();
+    this.ctx.closePath();
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, 0);
+    this.ctx.lineTo((state.hero.size[0] / 2), 0);
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = '#000';
+    this.ctx.stroke();
+
+    this.ctx.restore();
+
+    // Debug
+    const x = cx + state.hero.velocity[0] * 10;
+    const y = cy + state.hero.velocity[1] * 10;
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(cx, cy);
+    this.ctx.lineTo(x, y);
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = '#6aff00';
     this.ctx.stroke();
   }
 

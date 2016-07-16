@@ -9,6 +9,8 @@ import {
   RELEASE_RIGHT,
   INIT_HERO,
   UPDATE_THRUST,
+  UPDATE_LEFT,
+  UPDATE_RIGHT,
   UPDATE_HERO,
 } from './actionTypes';
 
@@ -71,6 +73,20 @@ export function updateThrust(thrust) {
   return {
     type: UPDATE_THRUST,
     thrust,
+  };
+}
+
+export function updateLeft(left) {
+  return {
+    type: UPDATE_LEFT,
+    left,
+  };
+}
+
+export function updateRight(right) {
+  return {
+    type: UPDATE_RIGHT,
+    right,
   };
 }
 
